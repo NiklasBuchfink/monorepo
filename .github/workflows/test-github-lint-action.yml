@@ -19,7 +19,6 @@ jobs:
 
       - name: Run Ninja i18n
         id: ninja-i18n
-        uses: opral/ninja-i18n@v1
-        env:
+        uses: opral/ninja-i18n@v0.2
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
