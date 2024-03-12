@@ -1,4 +1,4 @@
-name: Test GitHub Actions Lint
+name: Ninja i18n action
 
 on:
   pull_request_target:
@@ -19,7 +19,7 @@ jobs:
 
       - name: Run Ninja i18n
         id: ninja-i18n
-        uses: opral/ninja-i18n-action@v0.2.1
+        uses: opral/ninja-i18n-action@v0.2.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
