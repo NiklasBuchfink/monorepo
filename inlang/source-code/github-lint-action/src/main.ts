@@ -155,7 +155,7 @@ export async function run(): Promise<void> {
 		// Create a lint summary for each project
 		for (const result of results) {
 			if (result.errorsHead.length > 0) continue
-			if (result.project === "/project.inlang") {
+			if (result.projectPath === "/project.inlang") {
 				console.log("Head reports", result.reportsHead)
 				console.log("Base reports", result.reportsBase)
 			}
