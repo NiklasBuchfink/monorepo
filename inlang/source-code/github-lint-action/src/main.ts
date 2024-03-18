@@ -155,10 +155,6 @@ export async function run(): Promise<void> {
 		// Create a lint summary for each project
 		for (const result of results) {
 			if (result.errorsHead.length > 0) continue
-			if (result.projectPath === "/project.inlang") {
-				console.log("Head reports", result.reportsHead.length)
-				console.log("Base reports", result.reportsBase.length)
-			}
 			const LintSummary = createLintSummary(
 				result.reportsHead,
 				result.reportsBase,
@@ -332,7 +328,6 @@ function createLintSummary(
 					baseReport.messageId === report.messageId
 			)
 	)
-	console.log(diffReports.length)
 	for (const installedRule of installedRules) {
 		const id = installedRule.id
 		const name =
