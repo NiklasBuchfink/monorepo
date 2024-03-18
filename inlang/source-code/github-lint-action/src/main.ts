@@ -125,6 +125,8 @@ export async function run(): Promise<void> {
 			// Check if project is found in head repo
 			if (projectListHead.some((project) => project.projectPath === result.projectPath) === false) {
 				console.debug(`Project ${result.projectPath} not found in head repo`)
+				console.debug(projectListHead.map((project) => project.projectPath))
+				console.debug(results.map((result) => result.projectPath))
 				continue
 			}
 			const projectHead = await loadProject({
