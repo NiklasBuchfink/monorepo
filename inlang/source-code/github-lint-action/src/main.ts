@@ -332,6 +332,7 @@ function createLintSummary(
 					baseReport.messageId === report.messageId
 			)
 	)
+	console.log(diffReports.length)
 	for (const installedRule of installedRules) {
 		const id = installedRule.id
 		const name =
