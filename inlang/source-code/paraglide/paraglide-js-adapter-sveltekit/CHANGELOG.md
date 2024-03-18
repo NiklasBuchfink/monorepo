@@ -1,5 +1,37 @@
 # @inlang/paraglide-js-adapter-sveltekit
 
+## 0.5.11
+
+### Patch Changes
+
+- ef4e0ab: fix: preserve trailing slash when translating hrefs
+  - @inlang/paraglide-js-adapter-vite@1.2.23
+
+## 0.5.10
+
+### Patch Changes
+
+- @inlang/paraglide-js-adapter-vite@1.2.22
+
+## 0.5.9
+
+### Patch Changes
+
+- @inlang/paraglide-js-adapter-vite@1.2.21
+
+## 0.5.8
+
+### Patch Changes
+
+- 62e4a5c: Add warning message if an `<a>` tag is used in the same component as `<ParaglideJS>` since they can't be translated
+  - @inlang/paraglide-js-adapter-vite@1.2.20
+
+## 0.5.7
+
+### Patch Changes
+
+- @inlang/paraglide-js-adapter-vite@1.2.19
+
 ## 0.5.6
 
 ### Patch Changes

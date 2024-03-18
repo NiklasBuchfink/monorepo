@@ -1,5 +1,25 @@
 # @inlang/github-lint-action
 
+## 0.2.8
+
+### Patch Changes
+
+- 05d1914: set required node version down to v18
+
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [4837297]
+  - @inlang/sdk@0.27.0
+  - @lix-js/client@0.9.0
+
+## 0.2.1
+
+### Patch Changes
+
+- 3954ed987: - update README.md
+
 ## 0.2.0
 
 ### Minor Changes

@@ -22,6 +22,7 @@ import {
 	type MessageLintReport,
 } from "@inlang/sdk"
 import Link from "#src/renderer/Link.jsx"
+import { debounce } from "throttle-debounce"
 
 /**
  * The pattern editor is a component that allows the user to edit the pattern of a message.
@@ -142,26 +143,31 @@ export function PatternEditor(props: {
 	)
 
 	createEffect(
-		on(currentJSON, () => {
-			if (JSON.stringify(currentJSON().content) !== JSON.stringify(previousContent())) {
-				autoSave()
-				setPreviousContent(currentJSON().content)
-				setHasChanges((prev) => {
-					const hasChanged =
-						JSON.stringify(referencePattern()) !== JSON.stringify(newPattern()) &&
-						!(
-							referencePattern() === undefined &&
-							JSON.stringify(newPattern()) === `[{"type":"Text","value":""}]`
-						)
-					if (prev !== hasChanged && hasChanged) {
-						setLocalChanges((prev) => (prev += 1))
-					} else if (prev !== hasChanged && !hasChanged) {
-						setLocalChanges((prev) => (prev -= 1))
-					}
-					return hasChanged
-				})
-			}
-		})
+		// debounce to improve performance when typing
+		// eslint-disable-next-line solid/reactivity
+		on(
+			currentJSON,
+			debounce(500, () => {
+				if (JSON.stringify(currentJSON().content) !== JSON.stringify(previousContent())) {
+					autoSave()
+					setPreviousContent(currentJSON().content)
+					setHasChanges((prev) => {
+						const hasChanged =
+							JSON.stringify(referencePattern()) !== JSON.stringify(newPattern()) &&
+							!(
+								referencePattern() === undefined &&
+								JSON.stringify(newPattern()) === `[{"type":"Text","value":""}]`
+							)
+						if (prev !== hasChanged && hasChanged) {
+							setLocalChanges((prev) => (prev += 1))
+						} else if (prev !== hasChanged && !hasChanged) {
+							setLocalChanges((prev) => (prev -= 1))
+						}
+						return hasChanged
+					})
+				}
+			})
+		)
 	)
 
 	const autoSave = () => {
