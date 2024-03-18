@@ -122,7 +122,11 @@ export async function run(): Promise<void> {
 
 		// Collect all reports from the head repository
 		for (const result of results) {
-			console.debug(`Checking project: ${result.projectPath}, ${projectListHead[0]}`)
+			console.debug(
+				`Checking project: ${result.projectPath}, ${projectListHead.some(
+					(project) => project.projectPath === result.projectPath
+				)}`
+			)
 			if (!projectListHead.some((project) => project.projectPath === result.projectPath)) {
 				console.debug(`Project ${result.projectPath} not found in head repo`)
 				continue
