@@ -145,6 +145,7 @@ export async function run(): Promise<void> {
 			const newInstalledRules = projectHead.installed.messageLintRules()
 			for (const newRule of newInstalledRules) {
 				if (!result.installedRules.some((rule) => rule.id === newRule.id)) {
+					console.log("New rule found", newRule.id, newRule.displayName.en)
 					result.installedRules.push(newRule)
 				}
 			}
