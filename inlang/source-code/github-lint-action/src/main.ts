@@ -123,10 +123,12 @@ export async function run(): Promise<void> {
 		// Collect all reports from the head repository
 		for (const result of results) {
 			// Check if project is found in head repo
-			if (projectListHead.some((project) => project.projectPath === result.projectPath) === false) {
+			if (
+				projectListHead.some(
+					(project) => project.projectPath.replace(process.cwd(), "") === result.projectPath
+				) === false
+			) {
 				console.debug(`Project ${result.projectPath} not found in head repo`)
-				console.debug(projectListHead.map((project) => project.projectPath))
-				console.debug(results.map((result) => result.projectPath))
 				continue
 			}
 			const projectHead = await loadProject({
@@ -172,7 +174,11 @@ export async function run(): Promise<void> {
 				}
 			}
 			// Case: Project not found in head repo
-			if (projectListHead.some((project) => project.projectPath === result.projectPath) === false) {
+			if (
+				projectListHead.some(
+					(project) => project.projectPath.replace(process.cwd(), "") === result.projectPath
+				) === false
+			) {
 				result.commentContent = `#### ❗️ Project \`${shortenedProjectPath()}\` not found in head repo.
 If you have not intentionally deleted the project, check that the head repository is up to date with the base repository.`
 				continue
