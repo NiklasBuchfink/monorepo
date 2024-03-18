@@ -122,11 +122,6 @@ export async function run(): Promise<void> {
 
 		// Collect all reports from the head repository
 		for (const result of results) {
-			console.debug(
-				`Checking project: ${result.projectPath}, ${
-					projectListHead.some((project) => project.projectPath === result.projectPath) === false
-				}`
-			)
 			// Check if project is found in head repo
 			if (projectListHead.some((project) => project.projectPath === result.projectPath) === false) {
 				console.debug(`Project ${result.projectPath} not found in head repo`)
@@ -166,9 +161,6 @@ export async function run(): Promise<void> {
 
 		// Create a comment content for each project
 		for (const result of results) {
-			if (result.errorsBase.length > 0 && result.errorsHead.length === 0) {
-				console.debug(`#### ✅ Setup of project \`${result.projectPath}\` fixed`)
-			}
 			const shortenedProjectPath = () => {
 				const parts = result.projectPath.split("/")
 				if (parts.length > 2) {
@@ -178,7 +170,7 @@ export async function run(): Promise<void> {
 				}
 			}
 			// Case: Project not found in head repo
-			if (!projectListHead.some((project) => project.projectPath === result.projectPath)) {
+			if (projectListHead.some((project) => project.projectPath === result.projectPath) === false) {
 				result.commentContent = `#### ❗️ Project \`${shortenedProjectPath()}\` not found in head repo.
 If you have not intentionally deleted the project, check that the head repository is up to date with the base repository.`
 				continue
@@ -204,6 +196,10 @@ ${error?.cause.stack}`
 	})
 	.join("\n")}`
 				continue
+			}
+			// Case: setup of project fixed -> no comment
+			if (result.errorsBase.length > 0 && result.errorsHead.length === 0) {
+				console.debug(`#### ✅ Setup of project \`${result.projectPath}\` fixed`)
 			}
 			// Case: No lint reports found -> no comment
 			if (result.errorsBase.length > 0 || result.errorsHead.length > 0) continue
