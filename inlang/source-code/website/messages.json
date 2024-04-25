@@ -2,45 +2,6 @@
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"data": [
 		{
-			"id": "footer_categories_apps",
-			"selectors": [],
-			"variants": [
-				{
-					"languageTag": "en",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Apps"
-						}
-					]
-				},
-				{
-					"languageTag": "sk",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Aplikácie"
-						}
-					]
-				},
-				{
-					"languageTag": "zh",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "应用"
-						}
-					]
-				}
-			],
-			"alias": {
-				"default": "footer_categories_apps"
-			}
-		},
-		{
 			"id": "footer_categories_libraries",
 			"selectors": [],
 			"variants": [
