@@ -4231,6 +4231,16 @@
 							"value": "Esplora le app in lingua inglese"
 						}
 					]
+				},
+				{
+					"languageTag": "pt-BR",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Explore aplicativos inlang"
+						}
+					]
 				}
 			],
 			"alias": {
