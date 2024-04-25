@@ -16,6 +16,16 @@
 					]
 				},
 				{
+					"languageTag": "pt-BR",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Bibliotecas"
+						}
+					]
+				},
+				{
 					"languageTag": "sk",
 					"match": [],
 					"pattern": [
