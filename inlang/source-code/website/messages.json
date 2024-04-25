@@ -16,6 +16,16 @@
 					]
 				},
 				{
+					"languageTag": "it",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Biblioteche"
+						}
+					]
+				},
+				{
 					"languageTag": "pt-BR",
 					"match": [],
 					"pattern": [
