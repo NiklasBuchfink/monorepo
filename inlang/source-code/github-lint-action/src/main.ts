@@ -31,7 +31,6 @@ export async function run(): Promise<void> {
 			branch: github.context.payload.pull_request?.head.ref,
 		})
 		const projectListBase = await listProjects(repoBase.nodeishFs, process.cwd())
-		console.log("List projects", projectListBase)
 
 		const results = projectListBase.map((project) => ({
 			projectPath: project.projectPath.replace(process.cwd(), ""),
@@ -40,7 +39,7 @@ export async function run(): Promise<void> {
 			installedRules: [] as InstalledMessageLintRule[],
 			reportsBase: [] as MessageLintReport[],
 			reportsHead: [] as MessageLintReport[],
-			lintSummary: [] as { id: string; name: string; count: number }[],
+			lintSummary: [] as { id: string; name: string; count: number; level: "warning" | "error" }[],
 			changedIds: [] as string[],
 			commentContent: "" as string,
 		}))
@@ -67,13 +66,11 @@ export async function run(): Promise<void> {
 			owner: github.context.payload.pull_request?.head.label.split(":")[0],
 			repo: github.context.payload.pull_request?.head.repo.name,
 			branch: github.context.payload.pull_request?.head.label.split(":")[1],
-			link: github.context.payload.pull_request?.head.repo.html_url,
 		}
 		const baseMeta = {
 			owner: github.context.payload.pull_request?.base.label.split(":")[0],
 			repo: repo,
 			branch: github.context.payload.pull_request?.base.label.split(":")[1],
-			link: github.context.payload.pull_request?.base.repo.html_url,
 		}
 
 		const isFork = headMeta.owner !== baseMeta.owner
@@ -102,7 +99,12 @@ export async function run(): Promise<void> {
 				installedRules: [] as InstalledMessageLintRule[],
 				reportsBase: [] as MessageLintReport[],
 				reportsHead: [] as MessageLintReport[],
-				lintSummary: [] as { id: string; name: string; count: number }[],
+				lintSummary: [] as {
+					id: string
+					name: string
+					count: number
+					level: "warning" | "error"
+				}[],
 				changedIds: [] as string[],
 				commentContent: "" as string,
 			})
@@ -139,6 +141,10 @@ export async function run(): Promise<void> {
 			result?.reportsHead.push(...(await projectHead.query.messageLintReports.getAll()))
 		}
 
+		// Workflow should fail
+		let projectWithNewSetupErrors = false
+		let projectWithNewLintErrors = false
+
 		// Create a lint summary for each project
 		for (const result of results) {
 			if (result.errorsHead.length > 0) continue
@@ -147,6 +153,12 @@ export async function run(): Promise<void> {
 				result.reportsBase,
 				result.installedRules
 			)
+			if (LintSummary.summary.some((lintSummary) => lintSummary.level === "error")) {
+				console.debug(
+					`❗️ New lint errors found in project ${result.projectPath}. Set workflow to fail.`
+				)
+				projectWithNewLintErrors = true
+			}
 			result.lintSummary = LintSummary.summary
 			result.changedIds = LintSummary.changedIds
 		}
@@ -163,6 +175,10 @@ export async function run(): Promise<void> {
 			}
 			// Case: New errors in project setup
 			if (result.errorsBase.length === 0 && result.errorsHead.length > 0) {
+				console.debug(
+					`❗️ New errors in setup of project \`${result.projectPath}\` found. Set workflow to fail.`
+				)
+				projectWithNewSetupErrors = true
 				result.commentContent = `#### ❗️ New errors in setup of project \`${shortenedProjectPath()}\` found
 ${result.errorsHead
 	.map((error) => {
@@ -193,13 +209,13 @@ ${error?.cause.stack}`
 			// Case: Lint reports found -> create comment with lint summary
 			const lintSummary = result.lintSummary
 			const commentContent = `#### Project \`${shortenedProjectPath()}\`
-| lint rule | new reports | link |
-|-----------|-------------|------|
+| lint rule | new reports | level | link |
+|-----------|-------------| ------|------|
 ${lintSummary
 	.map(
 		(lintSummary) =>
-			`| ${lintSummary.name} | ${
-				lintSummary.count
+			`| ${lintSummary.name} | ${lintSummary.count}| ${
+				lintSummary.level
 			} | [contribute (via Fink 🐦)](https://fink.inlang.com/github.com/${headMeta.owner}/${
 				headMeta.repo
 			}?branch=${headMeta.branch}&project=${result.projectPath}&lint=${
@@ -282,6 +298,16 @@ ${lintSummary
 			body: commentContent,
 			as: "ninja-i18n",
 		})
+
+		// Fail the workflow if new lint errors or project setup errors exist
+		console.log("projectWithNewSetupErrors", projectWithNewSetupErrors)
+		console.log("projectWithNewLintErrors", projectWithNewLintErrors)
+		if (projectWithNewSetupErrors || projectWithNewLintErrors) {
+			const error_message =
+				"New errors found in project setup" +
+				(projectWithNewLintErrors ? " and new lint errors found in project" : "")
+			core.setFailed(error_message)
+		}
 	} catch (error) {
 		// Fail the workflow run if an error occurs
 		if (error instanceof Error) core.setFailed(error)
@@ -295,7 +321,7 @@ function createLintSummary(
 	reportsBase: MessageLintReport[],
 	installedRules: InstalledMessageLintRule[]
 ) {
-	const summary: { id: string; name: string; count: number }[] = []
+	const summary: { id: string; name: string; count: number; level: "error" | "warning" }[] = []
 	const diffReports = reportsHead.filter(
 		(report) =>
 			!reportsBase.some(
@@ -312,8 +338,9 @@ function createLintSummary(
 				? installedRule.displayName.en
 				: installedRule.displayName
 		const count = diffReports.filter((report) => report.ruleId === id).length
+		const level = installedRule.level
 		if (count > 0) {
-			summary.push({ id, name, count: count })
+			summary.push({ id, name, count: count, level })
 		}
 	}
 	const changedIds = diffReports
