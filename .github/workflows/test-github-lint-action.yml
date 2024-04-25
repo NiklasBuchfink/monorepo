@@ -10,12 +10,21 @@ permissions:
 jobs:
   test-action:
     name: GitHub Actions Test
+    # if: github.event.pull_request.mergeable_state == 'clean'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout target branch
         id: checkout
         uses: actions/checkout@v4
+        with:
+          path: target
+
+      - name: Checkout merge
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          path: merge
 
       - name: Setup Pnpm
         uses: pnpm/action-setup@v2
@@ -27,14 +36,16 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Dependencies
+      - name: Install Dependencies in target
         run: pnpm install
+        working-directory: target
 
-      - name: Build
+      - name: Build in target
         run: pnpm --filter @inlang/github-lint-action... build
+        working-directory: target
 
       - name: Test Local Action
         id: test-action
-        uses: ./inlang/source-code/github-lint-action
+        uses: ./target/inlang/source-code/github-lint-action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

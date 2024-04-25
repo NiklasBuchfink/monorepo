@@ -8,7 +8,6 @@ import {
 	type MessageLintReport,
 	listProjects,
 } from "@inlang/sdk"
-import { exec } from "node:child_process"
 
 /**
  * The main function for the action.
@@ -25,11 +24,15 @@ export async function run(): Promise<void> {
 		const { owner, repo } = github.context.repo
 		const prNumber = github.context.payload.pull_request?.number
 
+		// Change into the target repository
+		process.chdir("target")
 		const repoBase = await openRepository("file://" + process.cwd(), {
 			nodeishFs: fs,
 			branch: github.context.payload.pull_request?.head.ref,
 		})
 		const projectListBase = await listProjects(repoBase.nodeishFs, process.cwd())
+		console.log("List projects", projectListBase)
+
 		const results = projectListBase.map((project) => ({
 			projectPath: project.projectPath.replace(process.cwd(), ""),
 			errorsBase: [] as any[],
@@ -77,25 +80,10 @@ export async function run(): Promise<void> {
 		core.debug(`Is fork: ${isFork}`)
 
 		// Prepare head repo
-		let repoHead
-		if (isFork) {
-			core.debug("Fork detected, cloning head repository")
-			process.chdir("../../../")
-			await cloneRepository(headMeta)
-			process.chdir(headMeta.repo)
-			repoHead = await openRepository("file://" + process.cwd(), {
-				nodeishFs: fs,
-			})
-		} else {
-			core.debug("Fork not detected, fetching and checking out head repository")
-			await fetchBranch(headMeta.branch)
-			await checkoutBranch(headMeta.branch)
-			await pull()
-			repoHead = await openRepository("file://" + process.cwd(), {
-				nodeishFs: fs,
-				branch: headMeta.branch,
-			})
-		}
+		process.chdir("../merge")
+		const repoHead = await openRepository("file://" + process.cwd(), {
+			nodeishFs: fs,
+		})
 
 		// Check if the head repository has a new project compared to the base repository
 		const projectListHead = await listProjects(repoHead.nodeishFs, process.cwd())
@@ -195,12 +183,12 @@ ${error?.cause.stack}`
 	.join("\n")}`
 				continue
 			}
-			// Case: setup of project fixed -> no comment
+			// Case: setup of project fixed -> comment with new lint reports
 			if (result.errorsBase.length > 0 && result.errorsHead.length === 0) {
-				console.debug(`#### ✅ Setup of project \`${result.projectPath}\` fixed`)
+				console.debug(`✅ Setup of project \`${result.projectPath}\` fixed`)
 			}
 			// Case: No lint reports found -> no comment
-			if (result.errorsBase.length > 0 || result.errorsHead.length > 0) continue
+			if (result.errorsHead.length > 0) continue
 			if (result.lintSummary.length === 0) continue
 			// Case: Lint reports found -> create comment with lint summary
 			const lintSummary = result.lintSummary
@@ -333,78 +321,4 @@ function createLintSummary(
 		.filter((value, index, self) => self.indexOf(value) === index)
 
 	return { summary, changedIds }
-}
-
-// All functions below will be replaced by the @lix-js/client package in the future
-
-// Function to checkout a branch
-async function checkoutBranch(branchName: string) {
-	return new Promise<void>((resolve, reject) => {
-		// Execute the git command to checkout the branch
-		exec(`git checkout ${branchName}`, { cwd: process.cwd() }, (error, stdout, stderr) => {
-			if (error) {
-				console.error(`Error executing command: ${error}`)
-				reject(error)
-				return
-			}
-			core.debug(`stdout: ${stdout}`)
-			core.debug(`stderr: ${stderr}`)
-			resolve()
-		})
-	})
-}
-
-// Function to fetch the branches
-async function fetchBranch(branchName: string) {
-	return new Promise<void>((resolve, reject) => {
-		// Execute the git command to fetch the branch
-		exec(`git fetch origin ${branchName}`, { cwd: process.cwd() }, (error, stdout, stderr) => {
-			if (error) {
-				console.error(`Error executing command: ${error}`)
-				reject(error)
-				return
-			}
-			core.debug(`stdout: ${stdout}`)
-			core.debug(`stderr: ${stderr}`)
-			resolve()
-		})
-	})
-}
-
-// Funtion to pull latest changes
-async function pull() {
-	return new Promise<void>((resolve, reject) => {
-		// Execute the git command to pull the latest changes
-		exec(`git pull`, { cwd: process.cwd() }, (error, stdout, stderr) => {
-			if (error) {
-				console.error(`Error executing command: ${error}`)
-				reject(error)
-				return
-			}
-			core.debug(`stdout: ${stdout}`)
-			core.debug(`stderr: ${stderr}`)
-			resolve()
-		})
-	})
-}
-
-// Function to clone the head repository
-async function cloneRepository(repoData: { link: string; branch: string }) {
-	return new Promise<void>((resolve, reject) => {
-		// Execute the git command to clone the head repository
-		exec(
-			`git clone -b ${repoData.branch} --single-branch --depth 1 ${repoData.link}`, // Clone only the latest commit
-			{ cwd: process.cwd() },
-			(error, stdout, stderr) => {
-				if (error) {
-					console.error(`Error executing command: ${error}`)
-					reject(error)
-					return
-				}
-				core.debug(`stdout: ${stdout}`)
-				core.debug(`stderr: ${stderr}`)
-				resolve()
-			}
-		)
-	})
 }
