@@ -16,6 +16,16 @@
 					]
 				},
 				{
+					"languageTag": "sk",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Knižnice"
+						}
+					]
+				},
+				{
 					"languageTag": "zh",
 					"match": [],
 					"pattern": [
