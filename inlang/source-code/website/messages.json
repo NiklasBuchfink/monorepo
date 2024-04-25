@@ -6,6 +6,16 @@
 			"selectors": [],
 			"variants": [
 				{
+					"languageTag": "de",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Bibliotheken"
+						}
+					]
+				},
+				{
 					"languageTag": "en",
 					"match": [],
 					"pattern": [
