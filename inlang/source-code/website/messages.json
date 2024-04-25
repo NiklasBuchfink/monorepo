@@ -4241,6 +4241,16 @@
 							"value": "Explore aplicativos inlang"
 						}
 					]
+				},
+				{
+					"languageTag": "sk",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Preskúmajte aplikácie inlang"
+						}
+					]
 				}
 			],
 			"alias": {
