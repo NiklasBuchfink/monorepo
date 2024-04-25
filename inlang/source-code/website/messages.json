@@ -6,16 +6,6 @@
 			"selectors": [],
 			"variants": [
 				{
-					"languageTag": "de",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Libraries"
-						}
-					]
-				},
-				{
 					"languageTag": "en",
 					"match": [],
 					"pattern": [
