@@ -6,52 +6,12 @@
 			"selectors": [],
 			"variants": [
 				{
-					"languageTag": "de",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Apps"
-						}
-					]
-				},
-				{
 					"languageTag": "en",
 					"match": [],
 					"pattern": [
 						{
 							"type": "Text",
 							"value": "Apps"
-						}
-					]
-				},
-				{
-					"languageTag": "fr",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Applications"
-						}
-					]
-				},
-				{
-					"languageTag": "it",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Applicazioni"
-						}
-					]
-				},
-				{
-					"languageTag": "pt-BR",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Aplicativos"
 						}
 					]
 				},
