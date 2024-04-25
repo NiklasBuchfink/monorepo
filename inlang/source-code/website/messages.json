@@ -4132,16 +4132,6 @@
 							"value": "Explore inlang apps"
 						}
 					]
-				},
-				{
-					"languageTag": "fr",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Explorez les applications Inlang"
-						}
-					]
 				}
 			],
 			"alias": {
