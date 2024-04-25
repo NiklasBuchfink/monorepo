@@ -16,6 +16,26 @@
 					]
 				},
 				{
+					"languageTag": "fr",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Bibliothèques"
+						}
+					]
+				},
+				{
+					"languageTag": "pt-BR",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Bibliotecas"
+						}
+					]
+				},
+				{
 					"languageTag": "zh",
 					"match": [],
 					"pattern": [
