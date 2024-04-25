@@ -6,42 +6,12 @@
 			"selectors": [],
 			"variants": [
 				{
-					"languageTag": "de",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Bibliotheken"
-						}
-					]
-				},
-				{
 					"languageTag": "en",
 					"match": [],
 					"pattern": [
 						{
 							"type": "Text",
 							"value": "Libraries"
-						}
-					]
-				},
-				{
-					"languageTag": "fr",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Bibliothèques"
-						}
-					]
-				},
-				{
-					"languageTag": "it",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Biblioteche"
 						}
 					]
 				},
