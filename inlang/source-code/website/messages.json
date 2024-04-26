@@ -4162,16 +4162,6 @@
 							"value": "Explore coisas inlang"
 						}
 					]
-				},
-				{
-					"languageTag": "sk",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Preskúmajte veci v jazyku inlang"
-						}
-					]
 				}
 			],
 			"alias": {
