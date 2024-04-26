@@ -4114,6 +4114,16 @@
 			"selectors": [],
 			"variants": [
 				{
+					"languageTag": "de",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Inlang-Apps entdecken"
+						}
+					]
+				},
+				{
 					"languageTag": "en",
 					"match": [],
 					"pattern": [
