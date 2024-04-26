@@ -4114,12 +4114,32 @@
 			"selectors": [],
 			"variants": [
 				{
+					"languageTag": "de",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Inlang-Apps entdecken"
+						}
+					]
+				},
+				{
 					"languageTag": "en",
 					"match": [],
 					"pattern": [
 						{
 							"type": "Text",
 							"value": "Explore inlang apps"
+						}
+					]
+				},
+				{
+					"languageTag": "fr",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Explorez les applications Inlang"
 						}
 					]
 				}
