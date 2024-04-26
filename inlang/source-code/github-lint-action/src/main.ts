@@ -1,4 +1,3 @@
-// create conflict for testing
 import * as fs from "node:fs/promises"
 import * as core from "@actions/core"
 import * as github from "@actions/github"
@@ -34,7 +33,7 @@ export async function run(): Promise<void> {
 		if (data.mergeable) {
 			console.debug(`Pull Request #${prNumber} is mergeable.`)
 		} else {
-			console.warn(`Pull Request #${prNumber} is not mergeable.`)
+			console.warn(`Pull Request #${prNumber} is not mergeable. Skipping linting.`)
 			return
 		}
 
