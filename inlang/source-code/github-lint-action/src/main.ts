@@ -1,3 +1,4 @@
+// create conflict for testing
 import * as fs from "node:fs/promises"
 import * as core from "@actions/core"
 import * as github from "@actions/github"
@@ -85,9 +86,6 @@ export async function run(): Promise<void> {
 			repo: repo,
 			branch: github.context.payload.pull_request?.base.label.split(":")[1],
 		}
-
-		const isFork = headMeta.owner !== baseMeta.owner
-		core.debug(`Is fork: ${isFork}`)
 
 		// Prepare merge repo
 		process.chdir("../merge")
