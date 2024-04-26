@@ -6,16 +6,6 @@
 			"selectors": [],
 			"variants": [
 				{
-					"languageTag": "de",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Libraries"
-						}
-					]
-				},
-				{
 					"languageTag": "en",
 					"match": [],
 					"pattern": [
@@ -26,32 +16,12 @@
 					]
 				},
 				{
-					"languageTag": "fr",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Bibliothèques"
-						}
-					]
-				},
-				{
-					"languageTag": "it",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Librerie"
-						}
-					]
-				},
-				{
 					"languageTag": "pt-BR",
 					"match": [],
 					"pattern": [
 						{
 							"type": "Text",
-							"value": "Bibliotecas"
+							"value": "Libraries"
 						}
 					]
 				},
@@ -61,7 +31,7 @@
 					"pattern": [
 						{
 							"type": "Text",
-							"value": "Knižnice"
+							"value": "Libraries"
 						}
 					]
 				},
