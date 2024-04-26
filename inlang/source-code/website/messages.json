@@ -4130,7 +4130,6 @@
 						{
 							"type": "Text",
 							"value": "Explore inlang stuff"
-
 						}
 					]
 				},
@@ -4141,6 +4140,16 @@
 						{
 							"type": "Text",
 							"value": "Explorez des trucs en langage"
+						}
+					]
+				},
+				{
+					"languageTag": "it",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Esplora cose in lingua inglese"
 						}
 					]
 				}
