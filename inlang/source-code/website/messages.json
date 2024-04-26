@@ -4152,6 +4152,16 @@
 							"value": "Esplora cose in lingua inglese"
 						}
 					]
+				},
+				{
+					"languageTag": "pt-BR",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Explore coisas inlang"
+						}
+					]
 				}
 			],
 			"alias": {
