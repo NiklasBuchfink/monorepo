@@ -4142,16 +4142,6 @@
 							"value": "Explorez les applications Inlang"
 						}
 					]
-				},
-				{
-					"languageTag": "it",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Esplora le app in lingua inglese"
-						}
-					]
 				}
 			],
 			"alias": {
