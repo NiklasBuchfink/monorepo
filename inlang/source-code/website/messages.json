@@ -4142,16 +4142,6 @@
 							"value": "Explorez des trucs en langage"
 						}
 					]
-				},
-				{
-					"languageTag": "it",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Esplora cose in lingua inglese"
-						}
-					]
 				}
 			],
 			"alias": {
