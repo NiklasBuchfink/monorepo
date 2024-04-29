@@ -4132,16 +4132,6 @@
 							"value": "Explore inlang stuff"
 						}
 					]
-				},
-				{
-					"languageTag": "fr",
-					"match": [],
-					"pattern": [
-						{
-							"type": "Text",
-							"value": "Explorez des trucs en langage"
-						}
-					]
 				}
 			],
 			"alias": {
