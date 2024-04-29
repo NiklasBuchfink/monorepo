@@ -4129,7 +4129,17 @@
 					"pattern": [
 						{
 							"type": "Text",
-							"value": "Explore inlang stuff"
+							"value": "Explore inlang apps"
+						}
+					]
+				},
+				{
+					"languageTag": "fr",
+					"match": [],
+					"pattern": [
+						{
+							"type": "Text",
+							"value": "Explorez les applications Inlang"
 						}
 					]
 				}
