@@ -11,7 +11,7 @@
 					"pattern": [
 						{
 							"type": "Text",
-							"value": "Libraries"
+							"value": "Bibliotheken"
 						}
 					]
 				},
@@ -41,7 +41,7 @@
 					"pattern": [
 						{
 							"type": "Text",
-							"value": "Librerie"
+							"value": "Biblioteche"
 						}
 					]
 				},
@@ -51,7 +51,7 @@
 					"pattern": [
 						{
 							"type": "Text",
-							"value": "Bibliotecas"
+							"value": "Libraries"
 						}
 					]
 				},
@@ -61,7 +61,7 @@
 					"pattern": [
 						{
 							"type": "Text",
-							"value": "Knižnice"
+							"value": "Libraries"
 						}
 					]
 				},
