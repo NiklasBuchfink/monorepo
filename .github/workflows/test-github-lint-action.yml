@@ -3,8 +3,7 @@ name: Ninja i18n action
 on: pull_request_target
 
 # explicitly configure permissions, in case your GITHUB_TOKEN workflow permissions are set to read-only in repository settings
-permissions: 
-  pull-requests: write
+permissions: write-all
 
 jobs:
   ninja-i18n:
@@ -16,6 +15,7 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: target
 
       - name: Get merge commit sha from PR
@@ -31,29 +31,30 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.get-merge-sha.outputs.merge_commit_sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: merge
 
-      # - name: Setup Pnpm
-      #   uses: pnpm/action-setup@v2
-      #   with:
-      #     version: 8
+      - name: Setup Pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
-      # - name: Setup Node
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 20
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      # - name: Install Dependencies in target
-      #   run: pnpm install
-      #   working-directory: target
+      - name: Install Dependencies in target
+        run: pnpm install
+        working-directory: target
 
-      # - name: Build in target
-      #   run: pnpm --filter @inlang/github-lint-action... build
-      #   working-directory: target
+      - name: Build in target
+        run: pnpm --filter @inlang/github-lint-action... build
+        working-directory: target
 
       - name: Test Local Action
         id: test-action
-        uses: ./target/inlang/source-code/github-lint-action/internal-testing
+        uses: ./target/inlang/github-lint-action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          
