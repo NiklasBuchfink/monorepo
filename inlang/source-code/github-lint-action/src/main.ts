@@ -39,10 +39,12 @@ export async function run(): Promise<void> {
 
 		// Change into the target repository
 		process.chdir("target")
+		core.debug(`Changed directory to target`)
 		const repoTarget = await openRepository("file://" + process.cwd(), {
 			nodeishFs: fs,
 			branch: github.context.payload.pull_request?.head.ref,
 		})
+		core.debug(`Opened target repository`)
 		const projectListTarget = await listProjects(repoTarget.nodeishFs, process.cwd())
 
 		const results = projectListTarget.map((project) => ({
@@ -59,8 +61,7 @@ export async function run(): Promise<void> {
 
 		// Collect all reports from the target repository
 		for (const result of results) {
-			core.debug(`Checking project: ${result.projectPath}`)
-			console.debug(`RepoTarget: ${repoTarget}`)
+			core.debug(`Checking project: ${result.projectPath} in target repo`)
 			const projectTarget = await loadProject({
 				projectPath: process.cwd() + result.projectPath,
 				repo: repoTarget,
@@ -72,7 +73,9 @@ export async function run(): Promise<void> {
 				continue
 			}
 			result.installedRules.push(...projectTarget.installed.messageLintRules())
-			result.reportsTarget.push(...(await projectTarget.query.messageLintReports.getAll()))
+			const messageLintReports = await projectTarget.query.messageLintReports.getAll()
+			result.reportsTarget.push(...messageLintReports)
+			core.debug(`detected lint reports: ${messageLintReports.length}`)
 		}
 
 		// Collect meta data for head and base repository
@@ -89,9 +92,11 @@ export async function run(): Promise<void> {
 
 		// Prepare merge repo
 		process.chdir("../merge")
+		core.debug(`Changed directory to merge`)
 		const repoMerge = await openRepository("file://" + process.cwd(), {
 			nodeishFs: fs,
 		})
+		core.debug(`Opened merge repository`)
 
 		// Check if the merge repository has a new project compared to the target repository
 		const projectListMerge = await listProjects(repoMerge.nodeishFs, process.cwd())
@@ -123,7 +128,7 @@ export async function run(): Promise<void> {
 
 		// Collect all reports from the merge repository
 		for (const result of results) {
-			// Check if project is found in merge repo
+			core.debug(`Checking project: ${result.projectPath} in merge repo`)
 			if (
 				projectListMerge.some(
 					(project) => project.projectPath.replace(process.cwd(), "") === result.projectPath
@@ -149,7 +154,9 @@ export async function run(): Promise<void> {
 					result.installedRules.push(newRule)
 				}
 			}
-			result?.reportsMerge.push(...(await projectMerge.query.messageLintReports.getAll()))
+			const messageLintReports = await projectMerge.query.messageLintReports.getAll()
+			result?.reportsMerge.push(...messageLintReports)
+			core.debug(`detected lint reports: ${messageLintReports.length}`)
 		}
 
 		// Workflow should fail
