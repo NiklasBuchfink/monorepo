@@ -298,21 +298,18 @@ ${lintSummary
 					})
 				}
 			}
-		}
-
-		if (results.every((result) => result.commentContent.length === 0)) {
+		} else if (results.some((result) => result.commentContent.length > 0)) {
 			core.debug("No lint reports found, skipping comment")
-			return
+		} else {
+			core.debug("Creating a new comment")
+			await octokit.rest.issues.createComment({
+				owner,
+				repo,
+				issue_number: prNumber as number,
+				body: commentContent,
+				as: "ninja-i18n",
+			})
 		}
-
-		core.debug("Creating a new comment")
-		await octokit.rest.issues.createComment({
-			owner,
-			repo,
-			issue_number: prNumber as number,
-			body: commentContent,
-			as: "ninja-i18n",
-		})
 
 		// Fail the workflow if new lint errors or project setup errors exist
 		if (projectWithNewSetupErrors || projectWithNewLintErrors) {
