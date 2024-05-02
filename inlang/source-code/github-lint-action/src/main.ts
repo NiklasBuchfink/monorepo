@@ -298,7 +298,7 @@ ${lintSummary
 					})
 				}
 			}
-		} else if (results.some((result) => result.commentContent.length > 0)) {
+		} else if (results.every((result) => result.commentContent.length === 0)) {
 			core.debug("No lint reports found, skipping comment")
 		} else {
 			core.debug("Creating a new comment")
