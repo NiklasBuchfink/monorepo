@@ -287,7 +287,6 @@ ${lintSummary
 						body: commentResolved,
 						as: "ninja-i18n",
 					})
-					return
 				} else {
 					core.debug("Reports have not been fixed, updating comment")
 					await octokit.rest.issues.updateComment({
@@ -298,7 +297,6 @@ ${lintSummary
 						as: "ninja-i18n",
 					})
 				}
-				return
 			}
 		}
 
