@@ -11,7 +11,7 @@
 					"pattern": [
 						{
 							"type": "Text",
-							"value": "Libraries"
+							"value": "Bibliotheken"
 						}
 					]
 				},
@@ -41,7 +41,7 @@
 					"pattern": [
 						{
 							"type": "Text",
-							"value": "Librerie"
+							"value": "Biblioteche"
 						}
 					]
 				},
