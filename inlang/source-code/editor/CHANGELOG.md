@@ -1,5 +1,11 @@
 # @inlang/editor
 
+## 0.2.13
+
+### Patch Changes
+
+- d983db7: trigger test
+
 ## 0.2.12
 
 ### Patch Changes
