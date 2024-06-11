@@ -1,5 +1,11 @@
 # @inlang/editor
 
+## 0.2.12
+
+### Patch Changes
+
+- bab99e3: trigger test
+
 ## 0.2.11
 
 ### Patch Changes
