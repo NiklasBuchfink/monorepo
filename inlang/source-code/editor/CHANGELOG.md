@@ -1,5 +1,11 @@
 # @inlang/editor
 
+## 0.2.11
+
+### Patch Changes
+
+- c1ba236: trigger test
+
 ## 0.2.10
 
 ### Patch Changes
