@@ -15,21 +15,15 @@ jobs:
         with:
           fetch-depth: '2' # Fetches the last two commits
   
-      - name: Check for changes in editor/package.json
-        id: check_changes
+      - name: Check for changes
+        id: file_check
         run: |
-          echo "CHANGES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep 'inlang/source-code/editor/package.json')"
-          if [[ $CHANGES == inlang/source-code/editor/package.json ]]; then
-            echo "Package.json has been modified."
-            echo "changes=true" >> $GITHUB_ENV
-          else
-            echo "Package.json remains unchanged."
-            echo "changes=false" >> $GITHUB_ENV
+          if git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -q 'inlang/source-code/editor/package.json'; then
+            echo "::set-output name=changed::true"
           fi
-        
-
+  
       - name: Trigger redeploy
-        if: env.changes == 'true'
+        if: steps.file_check.outputs.changed == 'true'
         run: |
           echo "Triggering redeploy via deploy hook"
           curl -X POST ${{ secrets.FINK_DEPLOY_HOOK_URL }}
