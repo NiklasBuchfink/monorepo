@@ -1,5 +1,11 @@
 # @inlang/editor
 
+## 0.2.9
+
+### Patch Changes
+
+- a76099f: trigger test
+
 ## 0.2.8
 
 ### Patch Changes
